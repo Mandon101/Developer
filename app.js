@@ -4,6 +4,7 @@ const loginForm = document.querySelector('#login-form');
 const passwordInput = document.querySelector('#password');
 const togglePassword = document.querySelector('#toggle-password');
 const toast = document.querySelector('#toast');
+const transactionResult = document.querySelector('#transaction-result');
 const dashboardHome = document.querySelector('#dashboard-home');
 const billPage = document.querySelector('#bill-page');
 const transferPage = document.querySelector('#transfer-page');
@@ -43,6 +44,50 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add('show');
   window.setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+function showTransactionResult(success, message) {
+  transactionResult.hidden = false;
+  transactionResult.className = `transaction-result ${success ? 'success' : 'failure'}`;
+  transactionResult.textContent = `${success ? 'Successful' : 'Failed'}: ${message}`;
+  showToast(`${success ? 'Successful' : 'Failed'}: ${message}`);
+  window.setTimeout(() => {
+    transactionResult.hidden = true;
+  }, 5000);
+}
+
+function getBalance() {
+  return Number(balanceDisplay.textContent.replace(/[$,]/g, ''));
+}
+
+function updateBalance(balance) {
+  balanceDisplay.innerHTML = `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  transferAvailableBalance.textContent = balanceDisplay.textContent;
+}
+
+function addTransaction(name, amount, status, iconClass = 'mobile') {
+  const row = document.createElement('div');
+  row.className = `transaction-row ${status}`;
+  const nameCell = document.createElement('div');
+  nameCell.className = 'transaction-name';
+  const icon = document.createElement('span');
+  icon.className = `merchant-icon ${iconClass}`;
+  icon.textContent = status === 'success' ? '\u2713' : '!';
+  const details = document.createElement('div');
+  const title = document.createElement('strong');
+  title.textContent = name;
+  const state = document.createElement('small');
+  state.textContent = status === 'success' ? 'Successful' : 'Failed';
+  details.append(title, state);
+  nameCell.append(icon, details);
+  const date = document.createElement('span');
+  date.className = 'date';
+  date.textContent = 'Just now';
+  const value = document.createElement('strong');
+  value.className = `amount ${status === 'success' ? 'debit' : 'failed-amount'}`;
+  value.textContent = `${status === 'success' ? '-' : ''}$${amount.toFixed(2)}`;
+  row.append(nameCell, date, value);
+  document.querySelector('.transaction-table').append(row);
 }
 
 loginForm.addEventListener('submit', (event) => {
@@ -132,23 +177,20 @@ document.querySelector('#transfer-form').addEventListener('submit', (event) => {
     return;
   }
   if (amount > balance) {
-    showToast('Transfer failed: insufficient available balance.');
+    addTransaction(`Transfer to ${phone}`, amount, 'failure');
+    showTransactionResult(false, 'Transfer failed because the available balance is too low.');
     return;
   }
 
   const updatedBalance = balance - amount;
-  balanceDisplay.textContent = `$${updatedBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  transferAvailableBalance.textContent = balanceDisplay.textContent;
-  const transactionRow = document.createElement('div');
-  transactionRow.className = 'transaction-row';
-  transactionRow.innerHTML = `<div class="transaction-name"><span class="merchant-icon mobile">&#8593;</span><div><strong>Transfer to ${phone}</strong><small>Money transfer</small></div></div><span class="date">Just now</span><strong class="amount debit">-$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>`;
-  document.querySelector('.transaction-table').appendChild(transactionRow);
+  updateBalance(updatedBalance);
+  addTransaction(`Transfer to ${phone}`, amount, 'success');
   event.target.reset();
   transferPage.hidden = true;
   dashboardHome.hidden = false;
   document.querySelector('.transactions-section').hidden = false;
   window.scrollTo(0, 0);
-  showToast(`Transfer of $${amount.toFixed(2)} sent successfully.`);
+  showTransactionResult(true, `Transfer of $${amount.toFixed(2)} sent successfully.`);
 });
 
 document.querySelectorAll('.bill-category').forEach((category) => category.addEventListener('click', () => {
@@ -183,8 +225,42 @@ document.querySelectorAll('.bill-category').forEach((category) => category.addEv
 
 document.querySelector('#bill-form').addEventListener('submit', (event) => {
   event.preventDefault();
+  const amount = Number(document.querySelector('#bill-amount').value);
+  const provider = billProvider.value;
+  const reference = customerReference.value.trim();
   const action = selectedBill.textContent === 'Phone recharge' ? 'recharge' : 'payment';
-  showToast(`${selectedBill.textContent} ${action} is ready for confirmation.`);
+  const balance = getBalance();
+
+  if (!provider || provider.startsWith('Choose')) {
+    showTransactionResult(false, 'Choose a provider before sending the transaction.');
+    return;
+  }
+  if (!reference || !customerReference.checkValidity()) {
+    customerReference.reportValidity();
+    showTransactionResult(false, 'The account, card, or phone number is invalid.');
+    return;
+  }
+  if (!Number.isFinite(amount) || amount <= 0) {
+    showTransactionResult(false, 'Enter an amount greater than zero.');
+    return;
+  }
+  if (amount > balance) {
+    addTransaction(`${selectedBill.textContent} ${action}`, amount, 'failure');
+    showTransactionResult(false, 'The transaction failed because the available balance is too low.');
+    return;
+  }
+
+  updateBalance(balance - amount);
+  addTransaction(`${selectedBill.textContent} ${action}`, amount, 'success');
+  event.target.reset();
+  cardDetails.hidden = true;
+  cardExpiry.required = false;
+  cardCvv.required = false;
+  billPage.hidden = true;
+  dashboardHome.hidden = false;
+  document.querySelector('.transactions-section').hidden = false;
+  window.scrollTo(0, 0);
+  showTransactionResult(true, `${selectedBill.textContent} ${action} completed successfully.`);
 });
 
 document.querySelectorAll('.action-button:not(#pay-bill-button):not(#send-money-button)').forEach((button) => button.addEventListener('click', () => showToast(`${button.textContent.trim()} is ready to use.`)));

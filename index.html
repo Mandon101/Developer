@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="transaction-status.css">
 </head>
 <body>
   <main class="app-shell">
@@ -97,6 +98,7 @@
       <footer class="dashboard-footer"><span>AGLOWBANK LMT</span><span>Member FDIC &middot; Equal Housing Lender</span><span>Customer care: <a href="tel:08123062716">08123062716</a></span><span>Admin: <a href="tel:08167543271">08167543271</a></span></footer>
     </section>
   </main>
+  <div class="transaction-result" id="transaction-result" role="status" aria-live="polite" hidden></div>
   <div class="toast" id="toast" role="status"></div>
   <script src="app.js"></script>
 </body>
