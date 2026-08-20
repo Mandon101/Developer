@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AGLOWBANK LMT digital banking dashboard">
+  <title>AGLOWBANK LMT | Digital Banking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="login-panel" id="login-panel">
+      <div class="brand-mark" aria-label="AGLOWBANK LMT">
+        <span class="brand-symbol">A</span>
+        <span>AGLOWBANK <small>LMT</small></span>
+      </div>
+      <div class="login-copy">
+        <p class="eyebrow">Your money, in focus</p>
+        <h1>Banking that keeps you moving.</h1>
+        <p class="intro">A clear, considered view of your everyday finances. Securely access your account in a moment.</p>
+      </div>
+      <form class="login-form" id="login-form">
+        <div class="field-group">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+        <div class="field-group">
+          <div class="label-row">
+            <label for="password">Password</label>
+            <button class="text-button" type="button" id="toggle-password">Show</button>
+          </div>
+          <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required minlength="4">
+        </div>
+        <div class="form-options">
+          <label class="check-label"><input type="checkbox" checked> <span>Remember me</span></label>
+          <a href="#" class="quiet-link" id="forgot-link">Forgot password?</a>
+        </div>
+        <button class="primary-button" type="submit">Sign in <span aria-hidden="true">&#8594;</span></button>
+        <p class="form-note">Demo access: use any valid email and a password with 4+ characters.</p>
+      </form>
+      <p class="security-note"><span class="lock-icon" aria-hidden="true">&#9671;</span> Protected with bank-level security</p>
+    </section>
+
+    <aside class="welcome-panel" aria-label="Banking message">
+      <div class="welcome-top"><span class="status-dot"></span> AGLOWBANK LMT / EST. 2012</div>
+      <div class="orbital-art" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="orbit-core"></span></div>
+      <div class="welcome-message"><span class="display-number">01</span><h2>Clarity for<br><em>what comes next.</em></h2><p>Manage your money with confidence, from your first sign-in to your next big move.</p></div>
+      <div class="welcome-footer"><span>Private banking, made human</span><span>Scroll to explore <b>&darr;</b></span></div>
+    </aside>
+
+    <section class="dashboard" id="dashboard" hidden>
+      <header class="dashboard-header">
+        <div class="brand-mark"><span class="brand-symbol">A</span><span>AGLOWBANK <small>LMT</small></span></div>
+        <div class="header-actions"><button class="icon-button" aria-label="Notifications" title="Notifications">&#9673;<span class="notification-dot"></span></button><button class="avatar" aria-label="Open profile menu">JD</button></div>
+      </header>
+      <div class="dashboard-content">
+        <div class="dashboard-heading"><div><p class="eyebrow">Thursday, 20 August 2026</p><h1>Good morning, <span id="customer-name">Jordan</span>.</h1></div><button class="outline-button" id="sign-out">Sign out <span>&#8599;</span></button></div>
+        <div class="account-layout dashboard-home" id="dashboard-home">
+          <section class="balance-card">
+            <div class="card-heading"><span>Available balance</span><button class="more-button" aria-label="More account options">&#8942;</button></div>
+            <p class="balance">$24,680<span>.52</span></p>
+            <div class="account-meta"><div><span class="meta-label">Everyday account</span><span class="mono">•••• 4821</span></div><span class="verified">&#10003; Active</span></div>
+            <div class="balance-footer"><span>Updated just now</span><button class="transfer-button" id="transfer-button">Move money <span>&#8594;</span></button></div>
+          </section>
+          <section class="quick-actions"><p class="section-kicker">Quick actions</p><div class="action-grid"><button class="action-button" id="send-money-button"><span class="action-icon send">&#8593;</span><span>Send money</span></button><button class="action-button"><span class="action-icon receive">&#8595;</span><span>Receive</span></button><button class="action-button" id="pay-bill-button"><span class="action-icon bills">&#9632;</span><span>Pay a bill</span></button><button class="action-button"><span class="action-icon more">&#8943;</span><span>More</span></button></div></section>
+        </div>
+        <section class="transactions-section"><div class="section-header"><div><p class="section-kicker">Activity</p><h2>Recent transactions</h2></div><button class="quiet-link" id="view-all">View all <span>&#8594;</span></button></div><div class="transaction-table"><div class="table-head"><span>Transaction</span><span>Date</span><span>Amount</span></div><div class="transaction-row"><div class="transaction-name"><span class="merchant-icon grocery">G</span><div><strong>Green Market</strong><small>Groceries</small></div></div><span class="date">Today, 10:42</span><strong class="amount debit">-$86.40</strong></div><div class="transaction-row"><div class="transaction-name"><span class="merchant-icon salary">&#10003;</span><div><strong>Salary deposit</strong><small>Income</small></div></div><span class="date">18 Aug 2026</span><strong class="amount credit">+$4,250.00</strong></div><div class="transaction-row"><div class="transaction-name"><span class="merchant-icon home">&#8962;</span><div><strong>Haven Apartments</strong><small>Rent</small></div></div><span class="date">15 Aug 2026</span><strong class="amount debit">-$1,850.00</strong></div><div class="transaction-row"><div class="transaction-name"><span class="merchant-icon coffee">&#9679;</span><div><strong>Northline Coffee</strong><small>Food &amp; drink</small></div></div><span class="date">14 Aug 2026</span><strong class="amount debit">-$5.80</strong></div></div></section>
+      </div>
+      <div class="bill-page" id="transfer-page" hidden>
+        <div class="bill-page-heading"><button class="back-button" id="back-from-transfer"><span>&#8592;</span> Back to overview</button><p class="eyebrow">Transfers</p><h2>Send money</h2><p>Enter the recipient's phone number and amount to send money from your everyday account.</p></div>
+        <div class="bill-layout">
+          <section class="bill-categories"><div class="bill-section-title"><p class="section-kicker">Transfer details</p><span>Secure transfer</span></div><div class="transfer-info"><p><strong>From</strong><span>Everyday account</span><span class="mono">•••• 4821</span></p><p><strong>Available balance</strong><span id="transfer-available-balance">$24,680.52</span></p></div></section>
+          <section class="payment-card"><div class="payment-card-top"><span class="selected-bill-icon mobile">&#8593;</span><div><p class="section-kicker">Recipient</p><h3>Send funds</h3></div></div><form id="transfer-form" class="bill-form"><label for="recipient-phone">Recipient phone number</label><input id="recipient-phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0812 306 2716" pattern="(?:\+234|0)[789][01]\d{8}" title="Enter a valid Nigerian mobile number" required><label for="transfer-amount">Amount</label><div class="amount-input"><span>&#8358;</span><input id="transfer-amount" type="number" min="1" step="0.01" inputmode="decimal" placeholder="0.00" required></div><button class="primary-button" type="submit">Send money <span>&#8594;</span></button></form><p class="payment-note"><span>&#9671;</span> Review the recipient and amount before sending.</p></section>
+        </div>
+      </div>
+      <div class="bill-page" id="bill-page" hidden>
+        <div class="bill-page-heading"><button class="back-button" id="back-to-dashboard"><span>&#8592;</span> Back to overview</button><p class="eyebrow">Payments</p><h2>Pay a bill</h2><p>Choose a service below to make a secure payment from your everyday account.</p></div>
+        <div class="bill-layout">
+          <section class="bill-categories"><div class="bill-section-title"><p class="section-kicker">Bill categories</p><span>9 services</span></div><div class="bill-grid">
+            <button class="bill-category selected" data-bill="Electricity"><span class="bill-icon electricity">&#9889;</span><span><strong>Electricity</strong><small>Power and utility bills</small></span><span class="category-arrow">&#8594;</span></button>
+            <button class="bill-category" data-bill="NEPA"><span class="bill-icon nepa">&#9673;</span><span><strong>NEPA</strong><small>Electricity distribution</small></span><span class="category-arrow">&#8594;</span></button>
+            <button class="bill-category" data-bill="Satellite TV"><span class="bill-icon satellite">&#9678;</span><span><strong>Satellite TV</strong><small>DStv, GOtv and more</small></span><span class="category-arrow">&#8594;</span></button>
+            <button class="bill-category" data-bill="ATM card payment"><span class="bill-icon atm">&#9670;</span><span><strong>ATM card payment</strong><small>Pay with a bank card</small></span><span class="category-arrow">&#8594;</span></button>
+            <button class="bill-category" data-bill="Rent"><span class="bill-icon rent">&#8962;</span><span><strong>Rent</strong><small>Home and property</small></span><span class="category-arrow">&#8594;</span></button>
+            <button class="bill-category" data-bill="Water"><span class="bill-icon water">&#9679;</span><span><strong>Water</strong><small>Water utility bills</small></span><span class="category-arrow">&#8594;</span></button>
+            <button class="bill-category" data-bill="Internet"><span class="bill-icon internet">&#8734;</span><span><strong>Internet</strong><small>Broadband and Wi-Fi</small></span><span class="category-arrow">&#8594;</span></button>
+            <button class="bill-category" data-bill="Airtime & Data"><span class="bill-icon mobile">&#9990;</span><span><strong>Airtime &amp; data</strong><small>Top up any mobile line</small></span><span class="category-arrow">&#8594;</span></button>
+            <button class="bill-category" data-bill="School Fees"><span class="bill-icon school">&#9733;</span><span><strong>School fees</strong><small>Education payments</small></span><span class="category-arrow">&#8594;</span></button>
+            <button class="bill-category" data-bill="Other services"><span class="bill-icon other">&#8943;</span><span><strong>Other services</strong><small>More payment options</small></span><span class="category-arrow">&#8594;</span></button>
+          </div></section>
+          <section class="payment-card"><div class="payment-card-top"><span class="selected-bill-icon electricity" id="selected-bill-icon">&#9889;</span><div><p class="section-kicker">Selected service</p><h3 id="selected-bill">Electricity</h3></div></div><form id="bill-form" class="bill-form"><label for="bill-provider">Provider</label><select id="bill-provider"><option>Choose a provider</option><option>IKEDC</option><option>Eko Electricity</option><option>Abuja Electricity</option><option>Jos Electricity</option><option>Port Harcourt Electricity</option></select><label for="customer-reference" id="customer-reference-label">Meter / customer number</label><input id="customer-reference" type="text" placeholder="Enter your reference number" required><label for="bill-amount">Amount</label><div class="amount-input"><span>&#8358;</span><input id="bill-amount" type="number" min="1" placeholder="0.00" required></div><label class="check-label bill-save"><input type="checkbox"> <span>Save this biller for next time</span></label><button class="primary-button" id="bill-submit" type="submit">Continue to payment <span>&#8594;</span></button></form><p class="payment-note"><span>&#9671;</span> Payments are processed securely from account <span class="mono">•••• 4821</span></p></section>
+        </div>
+      </div>
+      <footer class="dashboard-footer"><span>AGLOWBANK LMT</span><span>Member FDIC &middot; Equal Housing Lender</span><span>Customer care: <a href="tel:08123062716">08123062716</a></span><span>Admin: <a href="tel:08167543271">08167543271</a></span></footer>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
