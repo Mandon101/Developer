@@ -178,7 +178,7 @@ document.querySelector('#transfer-form').addEventListener('submit', (event) => {
   }
   if (amount > balance) {
     addTransaction(`Transfer to ${phone}`, amount, 'failure');
-    showTransactionResult(false, 'Transfer failed because the available balance is too low.');
+    showTransactionResult(false, 'Insufficient funds. Your available balance is not enough for this transfer.');
     return;
   }
 
@@ -246,7 +246,7 @@ document.querySelector('#bill-form').addEventListener('submit', (event) => {
   }
   if (amount > balance) {
     addTransaction(`${selectedBill.textContent} ${action}`, amount, 'failure');
-    showTransactionResult(false, 'The transaction failed because the available balance is too low.');
+    showTransactionResult(false, 'Insufficient funds. Your available balance is not enough for this transaction.');
     return;
   }
 
