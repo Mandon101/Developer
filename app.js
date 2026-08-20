@@ -18,6 +18,20 @@ const cardExpiry = document.querySelector('#card-expiry');
 const cardCvv = document.querySelector('#card-cvv');
 const balanceDisplay = document.querySelector('.balance');
 const transferAvailableBalance = document.querySelector('#transfer-available-balance');
+const currentDate = document.querySelector('#current-date');
+const greeting = document.querySelector('#greeting');
+
+function updateDashboardDate() {
+  const now = new Date();
+  const hour = now.getHours();
+  greeting.textContent = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  currentDate.textContent = new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  }).format(now);
+}
 
 function showToast(message) {
   toast.textContent = message;
@@ -31,6 +45,7 @@ loginForm.addEventListener('submit', (event) => {
   const firstName = email.split('@')[0].split(/[._-]/)[0];
   const displayName = firstName ? firstName.charAt(0).toUpperCase() + firstName.slice(1) : 'Jordan';
   document.querySelector('#customer-name').textContent = displayName;
+  updateDashboardDate();
   loginPanel.hidden = true;
   dashboard.hidden = false;
   window.scrollTo(0, 0);
