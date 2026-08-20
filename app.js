@@ -13,6 +13,9 @@ const selectedBillIcon = document.querySelector('#selected-bill-icon');
 const customerReferenceLabel = document.querySelector('#customer-reference-label');
 const customerReference = document.querySelector('#customer-reference');
 const billSubmit = document.querySelector('#bill-submit');
+const cardDetails = document.querySelector('#card-details');
+const cardExpiry = document.querySelector('#card-expiry');
+const cardCvv = document.querySelector('#card-cvv');
 const balanceDisplay = document.querySelector('.balance');
 const transferAvailableBalance = document.querySelector('#transfer-available-balance');
 
@@ -136,26 +139,31 @@ document.querySelectorAll('.bill-category').forEach((category) => category.addEv
   selectedBillIcon.textContent = category.querySelector('.bill-icon').textContent;
   const isSatellite = billName === 'Satellite TV';
   const isAtm = billName === 'ATM card payment';
-  customerReferenceLabel.textContent = isSatellite ? 'Satellite card number' : isAtm ? 'ATM bank card number' : 'Meter / customer number';
-  customerReference.placeholder = isSatellite ? 'Enter your satellite card number' : isAtm ? 'Enter your bank card number' : 'Enter your reference number';
-  customerReference.inputMode = isAtm || isSatellite ? 'numeric' : 'text';
-  customerReference.pattern = isAtm ? '\\d{12,19}' : isSatellite ? '\\d{8,16}' : '';
-  customerReference.title = isAtm ? 'Enter a 12 to 19 digit bank card number' : isSatellite ? 'Enter an 8 to 16 digit satellite card number' : '';
-  billSubmit.firstChild.textContent = isAtm || isSatellite ? 'Send payment ' : 'Continue to payment ';
+  const isRecharge = billName === 'Phone recharge';
+  customerReferenceLabel.textContent = isSatellite ? 'Satellite card number' : isAtm ? 'ATM bank card number' : isRecharge ? 'Phone number' : 'Meter / customer number';
+  customerReference.placeholder = isSatellite ? 'Enter your satellite card number' : isAtm ? 'Enter your bank card number' : isRecharge ? '0812 306 2716' : 'Enter your reference number';
+  customerReference.inputMode = isAtm || isSatellite || isRecharge ? 'numeric' : 'text';
+  customerReference.pattern = isAtm ? '\\d{12,19}' : isSatellite ? '\\d{8,16}' : isRecharge ? '(?:\\+234|0)[789][01]\\d{8}' : '';
+  customerReference.title = isAtm ? 'Enter a 12 to 19 digit bank card number' : isSatellite ? 'Enter an 8 to 16 digit satellite card number' : isRecharge ? 'Enter a valid Nigerian mobile number' : '';
+  cardDetails.hidden = !isAtm;
+  cardExpiry.required = isAtm;
+  cardCvv.required = isAtm;
+  billSubmit.firstChild.textContent = isAtm || isSatellite ? 'Send payment ' : isRecharge ? 'Send recharge ' : 'Continue to payment ';
   billProvider.innerHTML = billName === 'Satellite TV'
     ? '<option>Choose a provider</option><option>DStv</option><option>GOtv</option><option>Startimes</option>'
     : billName === 'ATM card payment'
       ? '<option>Choose a bank</option><option>AGLOWBANK LMT</option><option>Access Bank</option><option>First Bank</option><option>GTBank</option><option>UBA</option>'
     : billName === 'Internet'
       ? '<option>Choose an internet provider</option><option>MTN Fibre</option><option>Airtel 5G</option><option>Glo 5G</option><option>9mobile</option><option>Spectranet</option><option>Smile</option><option>Swift Networks</option><option>ipNX</option><option>Starlink</option>'
-    : billName === 'Airtime & Data'
+    : billName === 'Phone recharge'
       ? '<option>Choose a network</option><option>MTN</option><option>Airtel</option><option>Glo</option><option>9mobile</option><option>Smile</option>'
       : '<option>Choose a provider</option><option>IKEDC</option><option>Eko Electricity</option><option>Abuja Electricity</option><option>Jos Electricity</option><option>Port Harcourt Electricity</option>';
 }));
 
 document.querySelector('#bill-form').addEventListener('submit', (event) => {
   event.preventDefault();
-  showToast(`${selectedBill.textContent} payment is ready for confirmation.`);
+  const action = selectedBill.textContent === 'Phone recharge' ? 'recharge' : 'payment';
+  showToast(`${selectedBill.textContent} ${action} is ready for confirmation.`);
 });
 
 document.querySelectorAll('.action-button:not(#pay-bill-button):not(#send-money-button)').forEach((button) => button.addEventListener('click', () => showToast(`${button.textContent.trim()} is ready to use.`)));
