@@ -20,18 +20,24 @@ const balanceDisplay = document.querySelector('.balance');
 const transferAvailableBalance = document.querySelector('#transfer-available-balance');
 const currentDate = document.querySelector('#current-date');
 const greeting = document.querySelector('#greeting');
+const currentSeason = document.querySelector('#current-season');
 
 function updateDashboardDate() {
   const now = new Date();
   const hour = now.getHours();
+  const month = now.getMonth();
+  const season = month < 2 || month === 11 ? 'Winter' : month < 5 ? 'Spring' : month < 8 ? 'Summer' : 'Autumn';
   greeting.textContent = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-  currentDate.textContent = new Intl.DateTimeFormat('en-US', {
+  currentDate.firstChild.textContent = `${new Intl.DateTimeFormat('en-US', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
     year: 'numeric'
-  }).format(now);
+  }).format(now)} `;
+  currentSeason.textContent = `· ${season}`;
 }
+
+window.setInterval(updateDashboardDate, 60000);
 
 function showToast(message) {
   toast.textContent = message;
